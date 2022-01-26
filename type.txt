@@ -1,0 +1,67 @@
+Enter password: *******************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 37
+Server version: 8.0.25 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> desc patient;
+ERROR 1046 (3D000): No database selected
+mysql> use project;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_project |
++-------------------+
+| doctor            |
+| patient           |
+| worker            |
++-------------------+
+3 rows in set (0.16 sec)
+
+mysql> desc doctor;
++---------------+-------------+------+-----+---------+----------------+
+| Field         | Type        | Null | Key | Default | Extra          |
++---------------+-------------+------+-----+---------+----------------+
+| SNo           | int         | NO   | UNI | NULL    | auto_increment |
+| Name          | varchar(20) | NO   |     | NULL    |                |
+| Gender        | char(1)     | YES  |     | NULL    |                |
+| Department    | varchar(10) | YES  |     | NULL    |                |
+| Phone_Number  | int         | NO   | PRI | NULL    |                |
+| Email_Address | varchar(30) | YES  |     | NULL    |                |
++---------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.04 sec)
+
+mysql> desc patient;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| SNo          | int         | NO   | UNI | NULL    | auto_increment |
+| Name         | varchar(20) | NO   |     | NULL    |                |
+| Gender       | char(1)     | YES  |     | NULL    |                |
+| Age          | int         | YES  |     | NULL    |                |
+| Ailment      | varchar(30) | YES  |     | NULL    |                |
+| Phone_Number | int         | NO   | PRI | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> desc worker;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| SNO          | int         | NO   | UNI | NULL    | auto_increment |
+| Name         | varchar(20) | YES  |     | NULL    |                |
+| Gender       | char(1)     | YES  |     | NULL    |                |
+| Age          | int         | YES  |     | NULL    |                |
+| WorkType     | char(20)    | YES  |     | NULL    |                |
+| Phone_Number | int         | NO   | PRI | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql>
