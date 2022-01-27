@@ -59,8 +59,8 @@ def login():
                 print("Welcome!")  #Username & Password found correct 
             elif i[1] != Password:  #Username is correct but Password is incorrect
                 print("Wrong Password! Please try again.")
-                for j in range(3):     
-                    while count <= 3: #Five chances to enter correct password
+                for j in range(3):  #Repeats the entering password and waiting for 60 seconds process 3 times before exiting the system completely    
+                    while count <= 3: #Four chances to enter correct password
                         Password = input("Enter Password: ")
                         if i[1] == Password:  
                             return("\nWecome!")  #Exits the fuction login() when password found correct
@@ -68,7 +68,7 @@ def login():
                         count += 1
                     if j == 2:  #Condition for exiting the system
                         break
-                    print("\nYou have entered your password incorrect 5 times. Please wait 60 seconds to enter password again.\n")
+                    print("\nYou have entered your password incorrect 4 times. Please wait 60 seconds to enter password again.\n")
                     time.sleep(60)  #Waits the user for 60 seconds before entering password again 
                     count = 0  #Sets count value back to zero
                 print("\nYou have entered wrong password multiple times. Try Again later!\n")
@@ -97,8 +97,8 @@ def cred_check():
                 print("Welcome!")  #Username & Password found correct 
             elif i[1] != passwd_old:  #Username is correct but Password is incorrect
                 print("Wrong Password! Please try again.")
-                for j in range(3):    
-                    while count <= 3: #Five chances to enter correct password
+                for j in range(3):  #Repeats the entering password and waiting for 60 seconds process 3 times before exiting the system completely    
+                    while count <= 3: #Four chances to enter correct password
                         passwd_old = input("Enter Password: ")
                         if i[1] == passwd_old:  
                             return("Wecome!")  #Exits the fuction login() when password found correct
@@ -106,7 +106,7 @@ def cred_check():
                         count += 1
                     if j == 2:  #Condition for exiting the system
                         break
-                    print("\nYou have entered your password incorrect 5 times. Please wait 60 seconds to enter password again.\n")
+                    print("\nYou have entered your password incorrect 4 times. Please wait 60 seconds to enter password again.\n")
                     time.sleep(60)  #Waits the user for 60 seconds before entering password again 
                     count = 0  #Sets count value back to zero
                 print("\nYou have entered wrong password multiple times. Try Again later!\n")
@@ -130,7 +130,8 @@ def update_credentials(u_old):
     cursor.execute(update_cmd)  #Executes the SQL query update_cmd
     con.commit()  #Commits the changes to MySQL database
     return ("\nSuccessfully Updated!🔐")
-    
+
+#Choice picker    
 while True:  
     choose = int(input("Enter your choice: "))
     if choose == 1:
