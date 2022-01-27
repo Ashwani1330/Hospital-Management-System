@@ -2,10 +2,10 @@ import time
 from sys import exit
 import mysql.connector as sql
 
-con = sql.connect(host = "localhost", user = "root", password = "ENG249/94MySQL", database = "Project")
-if con.is_connected():
+con = sql.connect(host = "localhost", user = "root", password = "ENG249/94MySQL", database = "Project")  #Open a connection to MySQL Database
+if con.is_connected():  #Checks connection
     print("Successfully connected.")
-cursor = con.cursor()
+cursor = con.cursor()  #Creates cursor instance
 
 print("""|_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_|
                          HOSPITAL MANAGEMENT SYSTEM
@@ -27,44 +27,43 @@ def signup():
     if signchoice == "Yes" or signchoice == "YES" or signchoice == "yes":
         print("\n\n\t\tNew User Sign-up\n")
         New_user = input("\nEnter Name: ")
-        New_Password = input("\nCreate Password: ")
-        New_Password_confm = input("Confirm your Password: ")
-        while New_Password_confm != New_Password:
+        New_Password = input("\nCreate Password: ")  
+        New_Password_confm = input("Confirm your Password: ")  
+        while New_Password_confm != New_Password:  #Prompts the user to re-enter correct password when confirmed password and password entered are not the same
             print("\nPlease ReEnter your password again:  ")
             New_Password = input("Create Password: ")
             New_Password_confm = input("Confirm your Password: ")
-        u_signup = "INSERT INTO login(User, Password) Values ('{}', '{}')".format(New_user, New_Password)
-        cursor.execute(u_signup)
-        con.commit()
+        u_signup = "INSERT INTO login(User, Password) Values ('{}', '{}')".format(New_user, New_Password)  #Inserts User's username and password in login table of MySQL
+        cursor.execute(u_signup)  #Executes the SQL query u_signup
+        con.commit()  #Commits the changes to MySQL database
         print("\nSucessfully Registered!🔒")
         return("Welcome!")       
     else:
-        print("\n\t\tThanks for visiting!\n")
-        return(exit()) 
+        print("\n\t\tThanks for visiting!\n")  
+        return(exit())  #Exits the system when user don't want to sign in
 
 
 def login():
     print("\n\t\tExisting User Login")
     count = 0
-    tries = 0
     User = input("\nEnter Username: ")
     Password = input("\nEnter Password: ")
-    cursor.execute("select * from login")
-    u_total = cursor.fetchall()
+    cursor.execute("select * from login")  #SQL retrieves all the data of table login
+    u_total = cursor.fetchall()  #Fetches all the records in the resultset
     u_list = []
-    for row in u_total:
-        u_list.append(row)
+    for row in u_total:  #Processing u_total tuple one row at a time
+        u_list.append(row)  #Appends one row in u_list at a time
     for i in u_list:
         if i[0] == User:
             if i[1] == Password:
                 print("Welcome!")  #Username & Password found correct 
             elif i[1] != Password:  #Username is correct but Password is incorrect
                 print("Wrong Password! Please try again.")
-                for j in range(3):  #Three trials berfore exiting the system    
+                for j in range(3):     
                     while count <= 3: #Five chances to enter correct password
                         Password = input("Enter Password: ")
-                        if i[1] == Password:  #Password found correct
-                            return("\nWecome!")  #Exits the fuction login()
+                        if i[1] == Password:  
+                            return("\nWecome!")  #Exits the fuction login() when password found correct
                         print("Wrong Password! Please try again.")
                         count += 1
                     if j == 2:  #Condition for exiting the system
@@ -76,9 +75,9 @@ def login():
                 print("\n\t\tThanks for visiting!\n")
                 return(exit())  #Exits the system
             break  #Breaks the loop when Username & Password found correct  
-    else:  #If Username is incorrect or not in the database
+    else:  
         print("\nNo user found with this username!")
-        return signup()
+        return signup()  #Prompts the user to signup() function if the username entered is incorrect or not in the database
         
 
 def cred_check():
@@ -98,11 +97,11 @@ def cred_check():
                 print("Welcome!")  #Username & Password found correct 
             elif i[1] != passwd_old:  #Username is correct but Password is incorrect
                 print("Wrong Password! Please try again.")
-                for j in range(3):  #Three trials berfore exiting the system    
+                for j in range(3):    
                     while count <= 3: #Five chances to enter correct password
                         passwd_old = input("Enter Password: ")
-                        if i[1] == passwd_old:  #Password found correct
-                            return("Wecome!")  #Exits the fuction login()
+                        if i[1] == passwd_old:  
+                            return("Wecome!")  #Exits the fuction login() when password found correct
                         print("Wrong Password! Please try again.")
                         count += 1
                     if j == 2:  #Condition for exiting the system
@@ -114,25 +113,25 @@ def cred_check():
                 print("\n\t\tThanks for visiting!\n")
                 return(exit())  #Exits the system
             break  #Breaks the loop when Username & Password found correct  
-    else:  #If Username is incorrect or not in the database
+    else:  
         print("\nNo user found with this username!")
-        return signup()
+        return signup()  #Prompts the user to signup() function if the username entered is incorrect or not in the database
 
 def update_credentials(u_old): 
     print("\n\t\tUser Credentials Updater\n")
-    u_update = input("\nEnter new Username: ")
-    passwd_update = input("\nEnter new Password: ")
+    u_update = input("\nEnter new Username: ")  
+    passwd_update = input("\nEnter new Password: ")  
     passwd_update_cnfm = input("Confirm Password: ")
-    while passwd_update_cnfm != passwd_update:
+    while passwd_update_cnfm != passwd_update:  #Prompts the user to re-enter correct password when confirmed password and new password entered are not the same
             print("Please ReEnter your password again:  ")
             passwd_update = input("\nEnter new Password: ")
             passwd_update_cnfm = input("\nConfirm Password: ")
-    update_cmd = ("UPDATE login SET User = ('{}'), Password = ('{}') where User = ('{}')".format(u_update, passwd_update, u_old))
-    cursor.execute(update_cmd)
-    con.commit()
+    update_cmd = ("UPDATE login SET User = ('{}'), Password = ('{}') where User = ('{}')".format(u_update, passwd_update, u_old))  #Updates User's username and password in login table of MySQL
+    cursor.execute(update_cmd)  #Executes the SQL query update_cmd
+    con.commit()  #Commits the changes to MySQL database
     return ("\nSuccessfully Updated!🔐")
     
-while True:
+while True:  
     choose = int(input("Enter your choice: "))
     if choose == 1:
         task = login()
@@ -148,7 +147,7 @@ while True:
         break
     else:
         print("\nPlease enter your Choice between (1-3)\n")
-        continue
+        continue  #Prompts user back to enter the choice of choice not between (1-3)
 
 print("""
                  ||___________ENTER YOUR CHOICE______________||
@@ -186,9 +185,9 @@ def patient_register():
     p_phone_no = int(input("Enter Patient's phone number: "))
     p_status = input("Enter your current Status.....(Ill/Well): ")    
     
-    p_insert = "INSERT INTO patient(Name, Gender, Age, Ailment, Phone_Number, Current_Status) Values ('{}', '{}', {}, '{}', {}, '{}')".format(p_name, p_gender, p_age, p_ailment, p_phone_no, p_status)
-    cursor.execute(p_insert)
-    con.commit()
+    p_insert = "INSERT INTO patient(Name, Gender, Age, Ailment, Phone_Number, Current_Status) Values ('{}', '{}', {}, '{}', {}, '{}')".format(p_name, p_gender, p_age, p_ailment, p_phone_no, p_status)  #Inserts patient details in patient table of MySQL
+    cursor.execute(p_insert)  #Executes the SQL query p_insert
+    con.commit()  #Commits the changes to MySQL databse
     return "\nSucessfully Registered!😃😃😄"
 
 def doctor_register():
@@ -218,14 +217,14 @@ def worker_register():
     return "\nSucessfully Registered!😃😃😄"
 
 def patient_total():
-    cursor.execute("select * from patient")
-    p_total = cursor.fetchall()
+    cursor.execute("select * from patient")  #SQL retrieves all the data of table login
+    p_total = cursor.fetchall()  #Fetches all the records in the resultset
     print("\nTotal patient details: \n")
-    p_list = []
-    for row in p_total:
-        p_list.append(row)
-    for i in p_list:
-        print(i, end = "\n\n")
+    p_list = []  #Creates an empty list
+    for row in p_total:  #Processing p_total tuple one row at a time
+        p_list.append(row)  #Appends one row in u_list at a time
+    for i in p_list:  #Transverse the p_list list one row stored as tuple in p_list at a time
+        print(i, end = "\n\n")  #Prints one row at a time
     return ""
 
 def doctor_total():
@@ -251,21 +250,21 @@ def worker_total():
     return ""
 
 def patient_particular():
-    cursor.execute("select * from patient")
-    p_total = cursor.fetchall()
+    cursor.execute("select * from patient")  #SQL retrieves all the data of table login
+    p_total = cursor.fetchall()  #Fetches all the records in the resultset
     p_list = []
     for row in p_total:
         p_list.append(row)
     p_desired = input("Enter the name of the patient whose details you want to view: ")
-    p_desired_cmd = "select * from patient where Name = ('{}')".format(p_desired)
-    cursor.execute(p_desired_cmd)
-    p_data = cursor.fetchall()
+    p_desired_cmd = "select * from patient where Name = ('{}')".format(p_desired)  #SQL retrieves the data of the desired patient from the table patient
+    cursor.execute(p_desired_cmd)  #Executes the query p_desired_cmd
+    p_data = cursor.fetchall()  #Fetches the record of the desired patient from the resultset
     for i in p_list:
-        if i[1] == p_desired:
+        if i[1] == p_desired:  #Checks if the desired patient is in the p_list list
             for row in p_data:
                 return(row)
     else:
-        return("Sorry, patient does not exist.")
+        return("Sorry, patient does not exist.")  #No patient found in the table patient of name p_desired 
 
 def doctor_particular():
     cursor.execute("select * from doctor")
@@ -307,23 +306,23 @@ def patient_update():
     cursor.execute("select * from patient")
     p_total = cursor.fetchall()
     p_list = []
-    for row in p_total:
-        p_list.append(row)
+    for row in p_total:  #Processing p_total tuple one row at a time
+        p_list.append(row)   #Appends one row in u_list at a time
     for i in p_list:
-        if i[1] == p_name:
-            p_ailment = input("\nDo you want to update details about Patient's ailment...(Yes/No): ")
+        if i[1] == p_name:   #Checks if the desired patient is in the p_list list
+            p_ailment = input("\nDo you want to update details about Patient's ailment...(Yes/No): ")  #Asks the user if user wants to update patients's ailment
             if p_ailment == "yes" or p_ailment == "YES" or p_ailment == "Yes":
                 p_ailment_new = input("\nEnter patient's current ailment: ")
+                p_status = input("\nEnter the patient's current status.....(Ill/Well): ")
+                p_cmd = ("UPDATE patient SET Ailment = ('{}'), Current_Status = ('{}') where Name = ('{}')".format(p_ailment_new, p_status, p_name))  #Updates patient's ailment, current status with name p_name in patient table of MySQL
+            else:  #If user does not want to update patient's ailment
                 p_status = input("\nEnter the patient's current status: ")
-                p_cmd = ("UPDATE patient SET Ailment = ('{}'), Current_Status = ('{}') where Name = ('{}')".format(p_ailment_new, p_status, p_name))
-            else:
-                p_status = input("\nEnter the patient's current status: ")
-                p_cmd = ("UPDATE patient SET Current_Status = ('{}') where Name = ('{}')".format(p_status, p_name))
-            cursor.execute(p_cmd)
-            con.commit()
+                p_cmd = ("UPDATE patient SET Current_Status = ('{}') where Name = ('{}')".format(p_status, p_name))  #Updates patient's current status with name p_name in patient table of MySQL
+            cursor.execute(p_cmd)  #Executes the query p_cmd
+            con.commit()  #Commits changes to the MySQL database
             return("Succesfully Updated Patient's Current Status!")
     else:
-        return("No Patient with this name exists.")
+        return("No Patient with this name exists.")  #No patient found in the table patient of name p_name
 
 def patient_delete():
     p_name = input("\nEnter the name of the patient whose record you want to delete: ")
@@ -334,26 +333,26 @@ def patient_delete():
         p_list.append(row)
     for i in p_list:
         if i[1] == p_name:
-            p_cmd = ("DELETE from patient where Name = ('{}')".format(p_name))
-            cursor.execute(p_cmd)
-            con.commit()
+            p_cmd = ("DELETE from patient where Name = ('{}')".format(p_name))  #Deletes the patient's record with name p_name in patient table of MySQL
+            cursor.execute(p_cmd)  #Executes the query p_cmd
+            con.commit()  #Commits the changes to MySQL database
             return("Successfully deleted Patient's Record!")
     else:
-        return("No Patient with this name exists. Could not delete any record!")       
+        return("No Patient with this name exists. Could not delete any record!")  #No patient found in the table patient of name p_name
 
 def feedback():
     print("\n\t\tFeedack")
     f_name = input("\nEnter your name: ")
     f_rate = int(input("\nPlease rate our system(0-10): "))
     f_feedback = input("\nTell us about you experience: ")
-    f_insert = "INSERT into feedback(Name, Rating, Feedback) Values ('{}', {}, '{}')".format(f_name, f_rate, f_feedback)
-    cursor.execute(f_insert)
-    con.commit()
+    f_insert = "INSERT into feedback(Name, Rating, Feedback) Values ('{}', {}, '{}')".format(f_name, f_rate, f_feedback)  ##Inserts users name,rating and feedback in feedback table of MySQL  
+    cursor.execute(f_insert)  #Executes the quert f_inser
+    con.commit()  #Commits the changes to My SQL databasess
     return ("\n\t\tThank You for you Valuable Feedback!")
 
 
 ans = "Yes"
-
+# Choice picker
 while ans =="Yes" or ans == "yes" or ans == "YES":
     Choice = int(input("\nEnter your choice: "))
 
@@ -395,13 +394,14 @@ while ans =="Yes" or ans == "yes" or ans == "YES":
         print(task)
     elif Choice == 13:
         print("\n\t\tBye! Stay Happy & Healthy 😀\n")
-        exit()
+        exit()  #Exits the system
     else:
         print("Please enter your Choice between (1-13)")
-        continue
+        continue  #Prompts user back to enter the choice of choice not between (1-13)
     ans = input("\nWant to get any other information?......(Yes/No): ")
 else:
     print("\n\t\tBye! Stay Happy & Healthy 😀\n")    
-cursor = con.close()
+
+cursor = con.close()  #Closes the connection with MySQL
 
 
