@@ -346,7 +346,7 @@ def feedback():
     f_name = input("\nEnter your name: ")
     f_rate = int(input("\nPlease rate our system(0-10): "))
     f_feedback = input("\nTell us about you experience: ")
-    f_insert = "INSERT into feedback(Name, Rating, Feedback) Values ('{}', {}, '{}')".format(f_name, f_rate, f_feedback)  ##Inserts users name,rating and feedback in feedback table of MySQL  
+    f_insert = "INSERT into feedback(Name, Rating, Feedback) Values ('{}', {}, '{}')".format(f_name, f_rate, f_feedback)  #Inserts users name,rating and feedback in feedback table of MySQL  
     cursor.execute(f_insert)  #Executes the quert f_inser
     con.commit()  #Commits the changes to My SQL databasess
     return ("\n\t\tThank You for you Valuable Feedback!")
