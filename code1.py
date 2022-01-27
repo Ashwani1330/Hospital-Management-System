@@ -56,7 +56,7 @@ def login():
     for i in u_list:
         if i[0] == User:
             if i[1] == Password:
-                print("Welcome!")  #Username & Password found correct 
+                return("Welcome!")  #Username & Password found correct 
             elif i[1] != Password:  #Username is correct but Password is incorrect
                 print("Wrong Password! Please try again.")
                 for j in range(3):  #Repeats the entering password and waiting for 60 seconds process 3 times before exiting the system completely    
@@ -94,14 +94,14 @@ def cred_check():
     for i in u_list:
         if i[0] == u_old:
             if i[1] == passwd_old:
-                print("Welcome!")  #Username & Password found correct 
+                return(update_credentials(u_old)) #Returns the u_old variable to update_credentials function when Username & Password found correct 
             elif i[1] != passwd_old:  #Username is correct but Password is incorrect
                 print("Wrong Password! Please try again.")
                 for j in range(3):  #Repeats the entering password and waiting for 60 seconds process 3 times before exiting the system completely    
                     while count <= 3: #Four chances to enter correct password
                         passwd_old = input("Enter Password: ")
                         if i[1] == passwd_old:  
-                            return("Wecome!")  #Exits the fuction login() when password found correct
+                            return(update_credentials(u_old))  #Returns the u_old variable to update_credentials function when password found correct
                         print("Wrong Password! Please try again.")
                         count += 1
                     if j == 2:  #Condition for exiting the system
@@ -404,5 +404,3 @@ else:
     print("\n\t\tBye! Stay Happy & Healthy 😀\n")    
 
 cursor = con.close()  #Closes the connection with MySQL
-
-
